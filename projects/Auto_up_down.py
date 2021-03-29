@@ -60,3 +60,5 @@ def guess_auto_algo():
             guess = guess + (high_guess-guess)//2
             print(guess)
     print(f'Le bot a trouve en {coups} coups.')
+
+guess_auto_algo()
