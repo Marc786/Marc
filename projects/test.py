@@ -60,10 +60,17 @@
 #     {'nom': 'joueurs2',  'murs': 6, 'pos':['x','y']}
 # ]
 
-import random
+from selenium import webdriver
 
-for i in range(9):
-    print(random.randint(0,3))
 
-liste = [1,2]
-print(len(liste))
+PATH = 'C:\Program Files (x86)\chromedriver.exe'
+
+driver = webdriver.Chrome(PATH)
+driver.get('https://www.youtube.com/?hl=fr&gl=CA')
+print(driver.title)
+
+search = driver.find_element_by_name('search_query')
+search.send_keys('allo')
+
+button = driver.find_element_by_xpath('//*[@id="search-icon-legacy"]')
+button.click()

@@ -14,7 +14,7 @@ def liste_prime(z):
             liste.append(i)
     return print(liste)
 
-r = 1000000
+r = 1000
 debut = time.perf_counter()
 liste_prime(r)
 fin = time.perf_counter()

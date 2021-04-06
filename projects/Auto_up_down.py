@@ -1,7 +1,6 @@
 import random
 
 
-
 def guess():
     tranche = int(input("Sur quel tranche de nombre voulez vous jouer (nombre positif) ?"))
     if tranche < 0:
@@ -18,6 +17,7 @@ def guess():
         elif guess < rnb:
             print("Trop Bas!")
 
+
 def guess_auto_random():
     tranche = int(input("Sur quel tranche de nombre voulez vous jouer (nombre positif) ?"))
     if tranche < 0:
@@ -33,6 +33,7 @@ def guess_auto_random():
         if guess == nombre:
             check = False
     print(f'Le bot a trouve en {coups} coups.')
+
 
 def guess_auto_algo():
     tranche = int(input("Sur quel tranche de nombre voulez vous jouer (nombre positif) ?"))
@@ -75,4 +76,5 @@ def guess_auto_algo():
             print(guess)
     print(f'Le bot a trouve en {coups} coups.')
 
-guess_auto_algo()
+
+guess_auto_random()
