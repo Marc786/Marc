@@ -2,51 +2,10 @@ import random
 
 
 def afficher_damier_ascii(état):
-    """Afficher le damier
+    j1 = état[0]['nom']
+    j2 = état[1]['nom']
 
-    Votre affichage doit être identique à
-    celui illustré. Notez aussi que votre fonction sera testée
-    avec plusieurs états de jeu différents.
-
-    Args:
-        état (dict): Dictionnaire représentant l'état du jeu.
-
-    Examples:
-        >>> état = [
-                {
-                    "nom": "jowic42",
-                    "pions": [0, 2, 6, 9, 12]
-                },
-                {
-                    "nom": "robot",
-                    "pions": [0, 9, 2, 6, 12]
-                }
-            ]
-        >>> afficher_damier_ascii(état)
-            Légende:
-              □ = jowic42
-              ■ = robot
-
-                   . | . : | : : | : : | : . | .
-                     █   . | .   |   . | .   ●
-              ...    ●     |     |     |     █      .
-            1 ──□□ ○─┼─────┼─────┼─────┼─────┼───────
-              ...    |     |     |     |     |      .
-              .      |     |     |     |     |    ...
-            2 ───────┼────□□ ○───█─────┼─────┼───────
-              .      |     |     ●     |     |    ...
-              ..     |     ●     |     |     |     ..
-            3 ───────┼─────█─────┼─────┼─────┼─○ □□──
-              ..     |     |     |     |     |     ..
-              .      |     |     |     |     |    ...
-            4 ───────┼─────┼───○ □□────┼─────┼───────
-              .      |     |     |     |     |    ...
-              ...    |     |     |     |     |      .
-            5 ──○ □□─┼─────┼─────┼─────┼─────┼───────
-              ...    |     |     |     ●     |      .
-                   . | .   |     |     █   . | .
-                   : | : . | . : | : . | . : | :
-    """
+    legende = f'Légende:\n  □ = {j1}\n  ■ = {j2}\n'
 
     grille = [
     ['  ', ' '*5, '. | . : ', '| : : ', '| : : ', '| : . ', '| .     '],
@@ -72,14 +31,14 @@ def afficher_damier_ascii(état):
 
     pion1aller = '□□ ○─'
     pion1retour = '─○ □□'
-    pion1fin = '○ □□─'
-
-    sc = '□'
+    pion1fin = '─○ □□'
 
     fst_aller = '────□'
+    sc_aller = '□'
     th_aller =' ○───'
 
     fst_retour = '───○ '
+    sc_retour = '□'
     th_retour = '□────'
 
     v_croix = '█'
@@ -91,17 +50,18 @@ def afficher_damier_ascii(état):
         if i == 0:
             grille[numero_pion*3][1] = pion1aller
         elif i == 6:
-            grille[numero_pion*3][11] = pion1retour
+            grille[numero_pion*3][11] = pion1fin
         elif i == 12:
-            grille[numero_pion*3][1] = pion1fin
-        elif i < 6:                                           # aller
-            grille[numero_pion*3][2*i-1] = fst_aller
-            grille[numero_pion*3][2*i] = sc
-            grille[numero_pion*3][2*i+1] = th_aller
-        elif i < 12:                                        # retour
-            grille[numero_pion*3][-2*i+23] = fst_retour
-            grille[numero_pion*3][-2*i+24] = sc
-            grille[numero_pion*3][-2*i+25] = th_retour
+            grille[numero_pion*3][1] = pion1retour
+        else:
+            if i < 6:                                           # aller
+                grille[numero_pion*3][2*i-1] = fst_aller
+                grille[numero_pion*3][2*i] = sc_aller
+                grille[numero_pion*3][2*i+1] = th_aller
+            elif i < 12:                                        # retour
+                grille[numero_pion*3][-2*i+23] = fst_retour
+                grille[numero_pion*3][-2*i+24] = sc_retour
+                grille[numero_pion*3][-2*i+25] = th_retour
 
     numero_pion = 0
     for i in état[1]['pions']:
@@ -115,19 +75,20 @@ def afficher_damier_ascii(état):
         elif i == 12:
             grille[1][numero_pion*2] = v_rond
             grille[2][numero_pion*2] = v_croix
-        elif i < 6:                                            # aller
-            grille[3*i][numero_pion*2] = v_croix
-            grille[3*i+1][numero_pion*2] = v_rond
-        elif i < 12:                                           # retour
-            grille[-3*i+36][numero_pion*2] = v_croix
-            grille[-3*i+35][numero_pion*2] = v_rond
+        else:
+            if i < 6:                                              # aller
+                grille[3*i][numero_pion*2] = v_croix
+                grille[3*i+1][numero_pion*2] = v_rond
+            elif i < 12:                                           # retour
+                grille[-3*i+36][numero_pion*2] = v_croix
+                grille[-3*i+35][numero_pion*2] = v_rond
 
-    print('Légende:\n  □ = ', état[0]['nom'], '\n  ■ = ',état[1]['nom'] , '\n')
+    print(legende)
     for line in range(19):
         print(*grille[line], sep = '')
 
 
-def etat__de_jeu_random():
+def verif_damier_ascii():
     état = [
     {
         "nom": "jowic42",
@@ -145,9 +106,7 @@ def etat__de_jeu_random():
     
     état[0]['pions'] = liste[0:5]
     état[1]['pions']= liste[5:10]
-    return état
 
-def verif_damier_ascii(état):
     ligne_courante = 1
     compteurH = 10
     compteur = 0
@@ -156,13 +115,14 @@ def verif_damier_ascii(état):
         for i in range(1, 6):
             if (état[1]['pions'][i-1] == ligne_courante or état[1]['pions'][i-1] == ligne_courante+compteurH):
                 if H == i or (H-compteurV) == i:
+                    print("---------------------")
                     compteur += 1
-                    print('couple', compteur)
-                    print("colonne courante (i) = ", i)
-                    print('ligne_courante=', ligne_courante)
-                    print('H = ', H)
-                    print('V = ', état[1]['pions'][i-1])
-                    print('-------------------------')
+                    # print("i = ", i)
+                    # print('ligne_courante=', ligne_courante)
+                    # print('compteurH = ', compteurH)
+                    # print('compteurV = ', compteurV)
+                    # print('H = ', H)
+                    # print('V = ', état[1]['pions'][i-1])
             compteurV -= 2
         ligne_courante += 1
         compteurH -= 2
@@ -173,7 +133,7 @@ def verif_damier_ascii(état):
     print(compteur)
 
 def verifier_saut(état, joueur, pion):
-    #le pion equivaut à la ligne courante
+    #le pion equivaut à la ligne courante ou la colonne
     position = état[joueur][pion]
 
     if ((joueur == 1 and (pion == 1 or pion == 5) and position < 6) or 
@@ -202,36 +162,4 @@ def verifier_saut(état, joueur, pion):
     if position >= 6:
         for i in range(position, post_position):
             pass
-    
 
-
-#etat_random = etat__de_jeu_random() 
-#verif_damier_ascii(etat_random)
-
-
-
-
-
-def sum_square(n):
-    i = 1
-    while True:
-        for j in range(i+1):
-            if i**2+j**2 == n:
-                return print(i, j)
-        i += 1
-#sum_square(97)
-
-def fibo (n):
-    if n == 0:
-        return 0
-    if n == 1:
-        return 1
-    n0 = 0
-    n1 = 1
-    for i in range(n-1):
-        temp = n1 
-        n1 = n0 + n1
-        n0 = temp
-    return n1
-
-#print(fibo(6))
