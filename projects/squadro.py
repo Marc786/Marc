@@ -127,7 +127,7 @@ def afficher_damier_ascii(état):
         print(*grille[line], sep = '')
 
 
-def verif_damier_ascii():
+def etat__de_jeu_random():
     état = [
     {
         "nom": "jowic42",
@@ -145,7 +145,9 @@ def verif_damier_ascii():
     
     état[0]['pions'] = liste[0:5]
     état[1]['pions']= liste[5:10]
+    return état
 
+def verif_damier_ascii(état):
     ligne_courante = 1
     compteurH = 10
     compteur = 0
@@ -156,10 +158,8 @@ def verif_damier_ascii():
                 if H == i or (H-compteurV) == i:
                     compteur += 1
                     print('couple', compteur)
-                    print("i = ", i)
+                    print("colonne courante (i) = ", i)
                     print('ligne_courante=', ligne_courante)
-                    print('compteurH = ', compteurH)
-                    print('compteurV = ', compteurV)
                     print('H = ', H)
                     print('V = ', état[1]['pions'][i-1])
                     print('-------------------------')
@@ -172,7 +172,45 @@ def verif_damier_ascii():
     afficher_damier_ascii(état)
     print(compteur)
 
-#verif_damier_ascii()
+def verifier_saut(état, joueur, pion):
+    #le pion equivaut à la ligne courante
+    position = état[joueur][pion]
+
+    if ((joueur == 1 and (pion == 1 or pion == 5) and position < 6) or 
+        (joueur == 1 and (pion == 2 or pion == 4) and position >= 6) or 
+        (joueur == 2 and (pion == 1 or pion == 5) and position >= 6) or 
+        (joueur == 2 and (pion == 2 or pion == 4) and position < 6)):
+        saut = 3
+    elif ((joueur == 2 and (pion == 1 or pion == 5) and position < 6) or 
+        (joueur == 2 and (pion == 2 or pion == 4) and position >= 6) or 
+        (joueur == 1 and (pion == 1 or pion == 5) and position >= 6) or 
+        (joueur == 1 and (pion == 2 or pion == 4) and position < 6)):
+        saut = 1
+    elif ((joueur == 1 and pion == 3) or
+        (joueur == 2 and pion == 3)):
+        saut = 2
+    
+    post_position = position + saut
+    if position > 6 and post_position > 12:
+        post_position = 12
+    elif position < 6 and post_position > 6:
+        post_position = 6
+    
+    if position < 6:
+        for i in range(position, post_position):
+            pass
+    if position >= 6:
+        for i in range(position, post_position):
+            pass
+    
+
+
+#etat_random = etat__de_jeu_random() 
+#verif_damier_ascii(etat_random)
+
+
+
+
 
 def sum_square(n):
     i = 1
@@ -181,4 +219,19 @@ def sum_square(n):
             if i**2+j**2 == n:
                 return print(i, j)
         i += 1
-sum_square(169)
+#sum_square(97)
+
+def fibo (n):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    n0 = 0
+    n1 = 1
+    for i in range(n-1):
+        temp = n1 
+        n1 = n0 + n1
+        n0 = temp
+    return n1
+
+#print(fibo(6))
