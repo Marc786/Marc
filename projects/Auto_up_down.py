@@ -60,20 +60,30 @@ def guess_auto_algo():
     coups = 0
     low_guess = 0
     high_guess = tranche
-    guess = random.randint(0, tranche)
-    #guess = tranche/2
+    #guess = random.randint(0, tranche)
+    guess = tranche/2
+    compteurHigh = 0
+    compteurLow = 0
     while checkwin:
         coups += 1
         if guess == nombre:
             checkwin = False
+        elif guess == tranche - 1 and compteurHigh == 1:
+            guess += 1
+        elif guess == 1 and compteurLow == 1:
+            guess -= 1
         elif guess > nombre:
             high_guess = guess
             guess = guess - (guess-low_guess)//2
-            print(guess)
+            if guess == 1:
+                compteurLow += 1
+            print(int(guess))
         elif guess < nombre:
             low_guess = guess
             guess = guess + (high_guess-guess)//2
-            print(guess)
+            if guess == tranche - 1:
+                compteurHigh += 1
+            print(int(guess))
     print(f'Le bot a trouve en {coups} coups.')
 
 guess_auto_algo()
